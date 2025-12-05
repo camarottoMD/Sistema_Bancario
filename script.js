@@ -125,25 +125,43 @@ class pessoa {
 class agencia {
   constructor() {
     this.listaAgencias = {}; //como sincar as agencias a contas
-    this.listaPessoasAgencia //lista de pessoas em cada agencia
+    this.listaPessoasAgencia = []; //lista de pessoas em cada agencia
   }
 
   registrarAgencias(agencia){
      pessoa.agencia = agencia
-     this.listaAgencias[agencia]=({Usuario: pessoa.nome, Saldo: pessoa.saldo})
-     pessoa.conta += 1
+    //  this.listaAgencias[agencia]=({Usuario: pessoa.nome, Saldo: pessoa.saldo})
+    //  pessoa.conta++
   }
 
   registrarPessoaAgencia(agencia, pessoa){
     for (agenciaDaLista in this.listaAgencias){
-      if (agencia !== agenciaDaLista){
+      if (agencia === agenciaDaLista){
+        for (pessoaDaLista in listaPessoas){
+          if (pessoaDaLista === pessoa){
+            
+          }
+        }
         console.log(`A agencia ${agencia} não existe. Consulte Nossa lista de agencias!`) //não sei se crio uma função para listar as agencias, preciso ver isso
       }
-      else if (pessoa ){ //preciso fazer uma lista de todas as pessoas do meu banco
+      else if (pessoa.conta ){ //preciso fazer uma lista de todas as pessoas do meu banco
         
       }
     }
+  }
+}
 
+/*============================================
+            Classe do BANCO  
+
+ Vai servir apenas para guardar todas as pessoas
+ do meu banco
+
+=============================================*/
+class meuSistemaBancario{
+  constructor(){
+    this.listaPessoas = [];
+    return this.listaPessoas;
   }
 }
 
@@ -160,7 +178,6 @@ class agencia {
 //Banco central além de armazenar as transações suspeitas ele faz a verificação de qual é suspeita
 class bancoCentral {
   constructor() {
-    
     this.transacoesSuspeitas = {};
     this.idSuspeito = 0;
   }
@@ -187,6 +204,7 @@ class bancoCentral {
 // sacar.addEventListener('click', sacar)
 // transferir.addEventListener('click', transferir)
 
+const redBank = new meuSistemaBancario() 
 const masterBank = new bancoCentral()
 
 //preciso criar primeiro a pessoa para assim criar uma agencia, pois agencia anexa o nome e saldo da pessoa num dict
