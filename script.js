@@ -25,6 +25,7 @@ class pessoa {
     // esses parametros servem para receber quando o objeto pessoa for criado, ou seja, ele precisa ser criado sendo passado o nome, banco e agencia.
     this.nome = nome;
     this.extrato = [];
+    this.conta;
     this.agencia; //dar um jeito de linkar agencia de pessoa para agencia da classe agencia
     this.saldo = 0;
   }
@@ -142,7 +143,7 @@ class banco {
 //Banco central além de armazenar as transações suspeitas ele faz a verificação de qual é suspeita
 class bancoCentral {
   constructor() {
-
+    
     this.transacoesSuspeitas = {};
     this.idSuspeito = 0;
   }
