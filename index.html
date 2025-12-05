@@ -1,13 +1,29 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <fieldset>
+    <legend>Sistema Bancario</legend>
+    <label for="name">Nome</label>
+    <input type="text" name="name" id="name">
+    <br><br>
+    <label for="agencia">Agencia</label>
+    <input type="text" name="agencia" id="agencia" maxlength="5">
+    <br><br>
+    <label for="conta">Conta</label>
+    <input type="text" name="conta" id="conta" maxlength="">
+    <br><br>
+    <label for="valor">Valor</label>
+    <input type="number" name="valor" id="valor">
+    <br><br>
+    <button type="submit">Salvar</button>
+    <button type="reset">Limpar</button>
+  </fieldset>
+  <script src="script.js"></script>
+</body>
 </html>
