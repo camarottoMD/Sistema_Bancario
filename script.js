@@ -131,6 +131,19 @@ class agencia {
   registrarAgencias(agencia){
      pessoa.agencia = agencia
      this.listaAgencias[agencia]=({Usuario: pessoa.nome, Saldo: pessoa.saldo})
+     pessoa.conta += 1
+  }
+
+  registrarPessoaAgencia(agencia, pessoa){
+    for (agenciaDaLista in this.listaAgencias){
+      if (agencia !== agenciaDaLista){
+        console.log(`A agencia ${agencia} não existe. Consulte Nossa lista de agencias!`) //não sei se crio uma função para listar as agencias, preciso ver isso
+      }
+      else if (pessoa ){ //preciso fazer uma lista de todas as pessoas do meu banco
+        
+      }
+    }
+
   }
 }
 
@@ -182,4 +195,5 @@ var matheus = new pessoa("Matheus", "", "")
 
 const novaAgencia = new agencia()
 novaAgencia.registrarAgencias('0123-4', maria)
+
 
