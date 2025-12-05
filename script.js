@@ -124,7 +124,7 @@ class banco {
     this.listaPessoasAgencia //lista de pessoas em cada agencia
   }
 
-  registrarAgencias(agencia, pessoa){
+  registrarAgencias(agencia){
      pessoa.agencia = agencia
      this.listaAgencias[agencia]=({Usuario: pessoa.nome, Saldo: pessoa.saldo})
   }
