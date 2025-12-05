@@ -77,7 +77,7 @@ class pessoa {
 
       nome.saldo -= valor;
 
-      const addExtrato = {tipo: 'Saque', valor, saldoAnterior: saldoAnterior};
+      const addExtrato = {tipo: 'Saque', valor, saldoAnterior: saldoAnterior, data: new Date().toISOString()};
       nome.extrato.push(addExtrato)
       console.log(`${this.nome} foi descontado ${valor}.`);
       masterBank.verificarTransacoes({ tipo: 'Saque', valor})
@@ -96,7 +96,7 @@ class pessoa {
 
       nome.saldo += valor;
 
-      const addExtrato = {tipo: 'Saque', valor, saldoAnterior: saldoAnterior}
+      const addExtrato = {tipo: 'Saque', valor, saldoAnterior: saldoAnterior, data: new Date().toISOString()}
       nome.extrato.push(addExtrato)
       console.log(`${this.nome} foi adicionado ${valor}.`);
       masterBank.verificarTransacoes({ tipo: 'Deposito', valor })
@@ -115,12 +115,16 @@ class pessoa {
 }
 
 /*============================================
-                Classe do BANCO
+                Classe da AGENCIA
+  Setar 3 agencias padroes
+  1. 00011
+  2. 00022
+  3. 00033
 =============================================*/
 
-class banco {
+class agencia {
   constructor() {
-    this.listaAgencias = {}; //como sincar as agencias a bancos
+    this.listaAgencias = {}; //como sincar as agencias a contas
     this.listaPessoasAgencia //lista de pessoas em cada agencia
   }
 
@@ -171,20 +175,11 @@ class bancoCentral {
 // transferir.addEventListener('click', transferir)
 
 const masterBank = new bancoCentral()
-var maria = new pessoa("maria", "bradesco", "0123456");
 
+//preciso criar primeiro a pessoa para assim criar uma agencia, pois agencia anexa o nome e saldo da pessoa num dict
+var maria = new pessoa("maria", "0123456");
 var matheus = new pessoa("Matheus", "", "")
-maria.depositar(1200, maria);
-maria.depositar(1200, maria);
-console.log(maria.saldo);
-maria.sacar(1200, maria)
-console.log(maria.saldo);
-maria.transferir(1200, maria, matheus)
-console.log(matheus.saldo)
-console.log(maria.extrato);
-masterBank.listarSuspeitos()
 
+const novaAgencia = new agencia()
+novaAgencia.registrarAgencias('0123-4', maria)
 
-const meuBanco = new banco()
-meuBanco.registrarAgencias('0123-4', maria)
-console.log(meuBanco.listaAgencias)
