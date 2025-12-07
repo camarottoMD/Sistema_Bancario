@@ -63,7 +63,7 @@ class pessoa {
     }
   }
 
-  sacar(valor, nome, agencia){
+  sacar(valor, nome, agencia){ // centralizar tudo em agencia e conta
     if (nome.agencia !== agencia || agencia === undefined){
       console.log(`Número da agencia incorreta`)
     }
@@ -87,11 +87,11 @@ class pessoa {
   }
 
   depositar(valor, nome, agencia) {
-    if (nome.agencia !== agencia || agencia === undefined){
-      console.log(`Número da agencia incorreta`)
-    }
+    if (nome.agencia !== agencia || agencia === undefined)
+      return  console.log(`Número da agencia incorreta`)
+    
 
-    else{
+ 
       const saldoAnterior = nome.saldo
 
       nome.saldo += valor;
@@ -100,8 +100,6 @@ class pessoa {
       nome.extrato.push(addExtrato)
       console.log(`${this.nome} foi adicionado ${valor}.`);
       masterBank.verificarTransacoes({ tipo: 'Deposito', valor })
-
-    }
   }
 
   visualizarExtrato(nome, agencia) {
@@ -207,11 +205,15 @@ class bancoCentral {
 const redBank = new meuSistemaBancario() 
 const masterBank = new bancoCentral()
 
-//preciso criar primeiro a pessoa para assim criar uma agencia, pois agencia anexa o nome e saldo da pessoa num dict
-var maria = new pessoa("maria", "0123456");
-var matheus = new pessoa("Matheus", "", "")
+masterBank.verificarTransacoes({valor:2000})
+masterBank.listarSuspeitos()
+// //preciso criar primeiro a pessoa para assim criar uma agencia, pois agencia anexa o nome e saldo da pessoa num dict
+// var maria = new pessoa("maria", "0123456");
+// var matheus = new pessoa("Matheus", "", "")
+// matheus.depositar('1200', 'matheus', '1234-5')
+// const novaAgencia = new agencia()
+// novaAgencia.registrarAgencias('0123-4', maria)
 
-const novaAgencia = new agencia()
-novaAgencia.registrarAgencias('0123-4', maria)
-
-
+if(masterBank.transacoesSuspeitas[2]){
+  console.log("encontrado")
+}
