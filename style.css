@@ -1,55 +1,64 @@
 body {
   font-family: Arial, sans-serif;
-  background: #f4f4f4;
+  background: #507B6A; /* verde acinzentado como fundo */
   margin: 20px;
+  color: #fff; /* texto branco para contraste */
 }
 
 h1 {
   text-align: center;
-  color: #333;
+  color: #A4998E; /* bege acinzentado para título */
 }
 
 .container {
   max-width: 600px;
   margin: auto;
-  background: #fff;
+  background: #6A513C; /* marrom médio para o bloco */
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 0 10px #ccc;
+  box-shadow: 0 0 15px #4B1816; /* vinho escuro para sombra */
 }
 
 label {
   display: block;
   margin-top: 10px;
   font-weight: bold;
+  color: #A4998E; /* contraste suave */
 }
 
 input, select, button {
   width: 100%;
   padding: 8px;
   margin-top: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid #A4998E;
   border-radius: 4px;
 }
 
+input, select {
+  background: #fff;
+  color: #000;
+}
+
 button {
-  background: #007bff;
+  background: #4B1816; /* vinho escuro */
   color: white;
   border: none;
   cursor: pointer;
   margin-top: 15px;
   font-size: 16px;
+  font-weight: bold;
 }
 
 button:hover {
-  background: #0056b3;
+  background: #6A513C; /* marrom médio no hover */
 }
 
 #output {
   margin-top: 20px;
-  background: #eee;
+  background: #A4998E; /* bege acinzentado para saída */
   padding: 10px;
   border-radius: 5px;
   min-height: 50px;
   font-weight: bold;
+  color: #4B1816; /* vinho escuro para texto */
 }

@@ -458,11 +458,15 @@ const redBank = new Banco("Red Bank", "001");
 const masterBank = new bancoCentral();
 
 const agencia00011 = redBank.buscarAgencia("00011");
-const maria = new pessoa("Maria Silva", "123.456.789-00");
-const matheus = new pessoa("Matheus Santos", "987.654.321-00");
+const agencia00022 = redBank.buscarAgencia("00022");
+const agencia00033 = redBank.buscarAgencia("00033");
+const maria = new pessoa("Maria", "123.456.789-00");
+const matheus = new pessoa("Matheus", "987.654.321-00");
+const thiago = new pessoa("Thiago", "431.253.945-00");
 
 const contaMaria = agencia00011.criarConta(maria);
 const contaMatheus = agencia00011.criarConta(matheus);
+const contaThiago = agencia00022.criarConta(thiago);
 
 // Função utilitária
 function getConta(numeroConta) {
@@ -500,7 +504,7 @@ function executarOperacao() {
       break;
     case "extrato":
       conta.visualizarExtrato();
-      output.innerHTML = "Extrato exibido no console.";
+      output.innerHTML = "Extrato exibido no console da página.";
       break;
   }
 }
