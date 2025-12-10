@@ -1,83 +1,35 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <title>Sistema Bancário</title>
-  <link rel="stylesheet" href="style.css"> <!-- Importa o CSS -->
-</head>
-<body>
-  <h1>💳 Sistema Bancário</h1>
-  <div class="container">
-    <label for="operacao">Operação:</label>
-    <select id="operacao">
-      <option value="depositar">Depositar</option>
-      <option value="sacar">Sacar</option>
-      <option value="transferir">Transferir</option>
-      <option value="extrato">Visualizar Extrato</option>
-    </select>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sistema Bancário</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>💳 Sistema Bancário</h1>
+    <div class="container">
+      <label for="operacao">Operação:</label>
+      <select id="operacao">
+        <option value="depositar">Depositar</option>
+        <option value="sacar">Sacar</option>
+        <option value="transferir">Transferir</option>
+        <option value="extrato">Visualizar Extrato</option>
+      </select>
 
-    <label for="conta">Número da Conta:</label>
-    <input type="text" id="conta" placeholder="Ex: 00011-000001">
+      <label for="conta">Número da Conta:</label>
+      <input type="text" id="conta" placeholder="Ex: 00011-000001" />
 
-    <label for="valor">Valor:</label>
-    <input type="number" id="valor" placeholder="Digite o valor">
+      <label for="valor">Valor:</label>
+      <input type="number" id="valor" placeholder="Digite o valor" />
 
-    <label for="destino">Conta Destino (para transferências):</label>
-    <input type="text" id="destino" placeholder="Ex: 00011-000002">
+      <label for="destino">Conta Destino (para transferências):</label>
+      <input type="text" id="destino" placeholder="Ex: 00011-000002" />
 
-    <button id="executar">Executar Operação</button>
+      <button id="executar">Executar Operação</button>
 
-    <div id="output"></div>
-  </div>
+      <div id="output"></div>
+    </div>
 
-  <!-- Importa seu código JS principal -->
-  <script src="banco.js"></script>
-  <script>
-    // Inicialização do sistema
-    const redBank = new Banco("Red Bank", "001");
-    const masterBank = new bancoCentral();
-
-    const agencia00011 = redBank.buscarAgencia("00011");
-    const maria = new pessoa("Maria Silva", "123.456.789-00");
-    const matheus = new pessoa("Matheus Santos", "987.654.321-00");
-
-    const contaMaria = agencia00011.criarConta(maria);
-    const contaMatheus = agencia00011.criarConta(matheus);
-
-    // Lógica do front
-    const output = document.getElementById("output");
-    document.getElementById("executar").addEventListener("click", () => {
-      const operacao = document.getElementById("operacao").value;
-      const numeroConta = document.getElementById("conta").value;
-      const valor = parseFloat(document.getElementById("valor").value);
-      const destino = document.getElementById("destino").value;
-
-      const conta = redBank.buscarConta(numeroConta.split("-")[0], numeroConta);
-
-      if (!conta) {
-        output.innerText = "Conta não encontrada!";
-        return;
-      }
-
-      if (operacao === "depositar") {
-        conta.depositar(valor);
-        output.innerText = `Depósito de R$${valor} realizado. Saldo atual: R$${conta.saldo}`;
-      } else if (operacao === "sacar") {
-        conta.sacar(valor);
-        output.innerText = `Saque de R$${valor} realizado. Saldo atual: R$${conta.saldo}`;
-      } else if (operacao === "transferir") {
-        const contaDestino = redBank.buscarConta(destino.split("-")[0], destino);
-        if (!contaDestino) {
-          output.innerText = "Conta destino não encontrada!";
-          return;
-        }
-        conta.transferir(valor, contaDestino);
-        output.innerText = `Transferência de R$${valor} para ${contaDestino.titular.nome} realizada.`;
-      } else if (operacao === "extrato") {
-        conta.visualizarExtrato();
-        output.innerText = "Extrato exibido no console.";
-      }
-    });
-  </script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>

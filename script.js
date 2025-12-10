@@ -22,13 +22,36 @@
 class pessoa {
   constructor(nome, cpf) {
     // esses parametros servem para receber quando o objeto pessoa for criado, ou seja, ele precisa ser criado sendo passado o nome e cpf.
-    this.nome = nome;
-    this.cpf = cpf;
+
+    // Verificações básicas
+    if (!nome || typeof nome !== "string" || nome.trim() === "") {
+      throw new Error("Nome inválido: deve ser uma string não vazia");
+    }
+
+    if (!cpf || typeof cpf !== "string" || cpf.trim() === "") {
+      throw new Error("CPF inválido: deve ser uma string não vazia");
+    }
+
+    this.nome = nome.trim();
+    this.cpf = cpf.trim();
   }
 }
 
 class Conta {
   constructor(numeroConta, titular, agencia) {
+    // Verificações básicas
+    if (!numeroConta || typeof numeroConta !== "string") {
+      throw new Error("Número de conta inválido");
+    }
+
+    if (!titular || !titular.nome || !titular.cpf) {
+      throw new Error("Titular inválido: deve ter nome e CPF");
+    }
+
+    if (!agencia || !agencia.numeroAgencia) {
+      throw new Error("Agência inválida");
+    }
+
     this.numeroConta = numeroConta;
     this.titular = titular; // instância de Pessoa
     this.agencia = agencia; // instância de Agencia
@@ -37,6 +60,22 @@ class Conta {
   }
 
   transferir(valor, contaDestino) {
+    // Verificações básicas
+    if (!contaDestino) {
+      console.log("Erro: Conta destino inválida");
+      return false;
+    }
+
+    if (contaDestino === this) {
+      console.log("Erro: Não é possível transferir para a mesma conta");
+      return false;
+    }
+
+    if (typeof valor !== "number" || isNaN(valor)) {
+      console.log("Erro: Valor deve ser um número válido");
+      return false;
+    }
+
     if (valor <= 0) {
       console.log("Valor de transferência inválido");
       return false;
@@ -96,6 +135,12 @@ class Conta {
   }
 
   sacar(valor) {
+    // Verificações básicas
+    if (typeof valor !== "number" || isNaN(valor)) {
+      console.log("Erro: Valor deve ser um número válido");
+      return false;
+    }
+
     if (valor <= 0) {
       console.log("Valor de saque inválido");
       return false;
@@ -123,12 +168,18 @@ class Conta {
     );
 
     masterBank.verificarTransacoes({ tipo: "Saque", valor });
+    return true;
   }
 
   depositar(valor) {
+    // Verificações básicas
+    if (typeof valor !== "number" || isNaN(valor)) {
+      console.log("Erro: Valor deve ser um número válido");
+      return false;
+    }
+
     if (valor <= 0) {
       console.log("Valor de depósito inválido");
-
       return false;
     }
 
@@ -138,13 +189,9 @@ class Conta {
 
     const registroExtrato = {
       tipo: "Deposito",
-
       valor,
-
       saldoAnterior,
-
       saldoAtual: this.saldo,
-
       data: new Date().toISOString(),
     };
 
@@ -154,6 +201,7 @@ class Conta {
       `Depósito de R$ ${valor} realizado com sucesso para ${this.titular.nome}`
     );
     masterBank.verificarTransacoes({ tipo: "Deposito", valor });
+    return true;
   }
 
   visualizarExtrato() {
@@ -209,6 +257,17 @@ class Agencia {
   }
 
   criarConta(titular) {
+    // Verificações básicas
+    if (!titular) {
+      console.log("Erro: Titular inválido");
+      return null;
+    }
+
+    if (!titular.nome || !titular.cpf) {
+      console.log("Erro: Titular deve ter nome e CPF");
+      return null;
+    }
+
     const numeroConta = `${this.numeroAgencia}-${String(
       this.proximoNumeroConta
     ).padStart(6, "0")}`;
@@ -225,7 +284,19 @@ class Agencia {
   }
 
   buscarConta(numeroConta) {
-    return this.contas[numeroConta];
+    // Verificação básica
+    if (!numeroConta || typeof numeroConta !== "string") {
+      console.log("Erro: Número de conta inválido");
+      return null;
+    }
+
+    const conta = this.contas[numeroConta];
+    if (!conta) {
+      console.log(`Conta ${numeroConta} não encontrada nesta agência`);
+      return null;
+    }
+
+    return conta;
   }
 
   listarContas() {
@@ -274,7 +345,19 @@ class Banco {
   }
 
   buscarAgencia(numeroAgencia) {
-    return this.agencias[numeroAgencia];
+    // Verificação básica
+    if (!numeroAgencia || typeof numeroAgencia !== "string") {
+      console.log("Erro: Número de agência inválido");
+      return null;
+    }
+
+    const agencia = this.agencias[numeroAgencia];
+    if (!agencia) {
+      console.log(`Agência ${numeroAgencia} não encontrada`);
+      return null;
+    }
+
+    return agencia;
   }
 
   buscarConta(numeroAgencia, numeroConta) {
@@ -339,9 +422,23 @@ class bancoCentral {
   }
   //transacoesSuspeitas é um dicionario, com index idSuspeito
   verificarTransacoes(transacao) {
+    // Verificações básicas
+    if (!transacao) {
+      console.log("Erro: Transação inválida");
+      return;
+    }
+
+    if (typeof transacao.valor !== "number" || isNaN(transacao.valor)) {
+      console.log("Erro: Valor da transação inválido");
+      return;
+    }
+
     if (transacao.valor > 1000) {
       this.idSuspeito++;
       this.transacoesSuspeitas[this.idSuspeito] = transacao;
+      console.log(
+        `Transação suspeita detectada! ID: ${this.idSuspeito} - Valor: R$ ${transacao.valor}`
+      );
     }
   }
 
@@ -353,55 +450,60 @@ class bancoCentral {
 }
 
 /*============================================
-                CRIAÇÕESSSSSSS
+                INICIALIZAÇÃO
 =============================================*/
 
-// Criar Banco e Banco Central
+// Inicialização do sistema
 const redBank = new Banco("Red Bank", "001");
 const masterBank = new bancoCentral();
 
-// Criar pessoas
+const agencia00011 = redBank.buscarAgencia("00011");
 const maria = new pessoa("Maria Silva", "123.456.789-00");
 const matheus = new pessoa("Matheus Santos", "987.654.321-00");
-const joao = new pessoa("João Oliveira", "111.222.333-44");
 
-// Buscar agências já criadas automaticamente
-const agencia00011 = redBank.buscarAgencia("00011");
-const agencia00022 = redBank.buscarAgencia("00022");
-const agencia00033 = redBank.buscarAgencia("00033");
-
-// Criar contas para os clientes
 const contaMaria = agencia00011.criarConta(maria);
 const contaMatheus = agencia00011.criarConta(matheus);
-const contaJoao = agencia00022.criarConta(joao);
 
-// Operações bancárias
-console.log("\n========== OPERAÇÕES ==========\n");
+// Função utilitária
+function getConta(numeroConta) {
+  const [agencia, conta] = numeroConta.split("-");
+  return redBank.buscarConta(agencia, numeroConta);
+}
 
-// Depósitos
-contaMaria.depositar(5000); // transação suspeita (>1000)
-contaMatheus.depositar(800);
-contaJoao.depositar(1200); // transação suspeita (>1000)
+// Função principal
+function executarOperacao() {
+  const operacao = document.getElementById("operacao").value;
+  const numeroConta = document.getElementById("conta").value.trim();
+  const valor = parseFloat(document.getElementById("valor").value);
+  const destino = document.getElementById("destino").value.trim();
+  const output = document.getElementById("output");
 
-// Saques
-contaMaria.sacar(500);
-contaMatheus.sacar(200);
+  const conta = getConta(numeroConta);
+  if (!conta) {
+    output.innerHTML = "Conta não encontrada!";
+    return;
+  }
 
-// Transferências
-contaMaria.transferir(1000, contaMatheus); // suspeita
-contaJoao.transferir(300, contaMaria);
+  switch (operacao) {
+    case "depositar":
+      conta.depositar(valor);
+      output.innerHTML = `Depósito de R$${valor} realizado.<br>Saldo: R$${conta.saldo}`;
+      break;
+    case "sacar":
+      conta.sacar(valor);
+      output.innerHTML = `Saque de R$${valor} realizado.<br>Saldo: R$${conta.saldo}`;
+      break;
+    case "transferir":
+      const contaDestino = getConta(destino);
+      conta.transferir(valor, contaDestino);
+      output.innerHTML = `Transferência de R$${valor} para ${contaDestino.titular.nome}.`;
+      break;
+    case "extrato":
+      conta.visualizarExtrato();
+      output.innerHTML = "Extrato exibido no console.";
+      break;
+  }
+}
 
-// Consultas
-console.log("\n========== CONSULTAS ==========\n");
-contaMaria.visualizarExtrato();
-contaMatheus.visualizarExtrato();
-contaJoao.visualizarExtrato();
-
-// Relatórios
-console.log("\n========== RELATÓRIO DO BANCO ==========\n");
-redBank.listarAgencias();
-redBank.relatorioCompleto();
-
-// Banco Central - transações suspeitas
-console.log("\n========== TRANSAÇÕES SUSPEITAS ==========\n");
-masterBank.listarSuspeitos();
+// Listener
+document.getElementById("executar").addEventListener("click", executarOperacao);
